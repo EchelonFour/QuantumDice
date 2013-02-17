@@ -29,15 +29,15 @@ public class MainActivity extends Activity {
 		new RunRandomLookup().execute();
 	}
 
-	public void onRadioCustomClicked(View view) {
+	public void onRadioClicked(View view) {
 		EditText customField = (EditText) findViewById(R.id.editTextCustom);
-		if (customField.isEnabled()) {
-			customField.setEnabled(false);
-			customField.setFocusable(false);
-		} else {
+		if (((RadioGroup) findViewById(R.id.radioGroup))
+				.getCheckedRadioButtonId() == R.id.radioCustom) {
 			customField.setEnabled(true);
-			customField.setFocusable(true);
+		} else {
+			customField.setEnabled(false);
 		}
+
 	}
 
 	private class RunRandomLookup extends AsyncTask<Void, Void, String> {

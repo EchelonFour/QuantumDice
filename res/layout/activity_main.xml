@@ -32,19 +32,21 @@
                 android:id="@+id/radioCoin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="onRadioClicked"
                 android:text="@string/coin_flip" />
 
             <RadioButton
                 android:id="@+id/radioDice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="onRadioClicked"
                 android:text="@string/dice_roll" />
 
             <RadioButton
                 android:id="@+id/radioCustom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onRadioCustomClicked"
+                android:onClick="onRadioClicked"
                 android:text="@string/custom" />
 
             <EditText
@@ -52,7 +54,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:focusable="false"
                 android:inputType="number"
                 android:text="@string/default_custom" />
         </RadioGroup>
