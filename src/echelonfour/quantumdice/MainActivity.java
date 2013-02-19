@@ -93,6 +93,7 @@ public class MainActivity extends Activity {
 		if (manualReseed) {
 			new RunReseed().execute();
 		}
+		onRadioClicked(null);
 	}
 
 	public void onButtonGoClicked(View view) {
@@ -141,9 +142,15 @@ public class MainActivity extends Activity {
 		protected void onPostExecute(Boolean result) {
 			int checkId = ((RadioGroup) findViewById(R.id.radioGroup))
 					.getCheckedRadioButtonId();
-			int customBound = Integer
+			int customBound;
+			try {
+			customBound = Integer
 					.parseInt(((EditText) findViewById(R.id.editTextCustom))
 							.getText().toString());
+			} catch (NumberFormatException e) {
+				((EditText) findViewById(R.id.editTextCustom)).setText("10");
+				customBound = 10;
+			}
 			switch (checkId) {
 			case R.id.radioDice:
 				textResult.setText(Integer.toString(RandomGrabber
