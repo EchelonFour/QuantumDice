@@ -13,5 +13,8 @@
     <string name="heads">Heads</string>
     <string name="tails">Tails</string>
     <string name="network_issue">Issue contacting random number server</string>
+    <string name="option_reseed_checked">&#x2714; Reseed each time</string>
+    <string name="option_reseed_unchecked">&#x2718; Reseed each time</string>
+    <string name="option_manual_seed">Manual Reseed</string>
 
 </resources>

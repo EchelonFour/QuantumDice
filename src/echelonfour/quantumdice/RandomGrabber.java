@@ -30,15 +30,18 @@ public class RandomGrabber {
 		httpClient.getConnectionManager().shutdown();
 		httpClient = null;
 	}
-	public static int getRandomBound(int n) throws QuantumException {
+	public static int getRandomBound(int n) {
+		
+		return rand.nextInt(n);
+	}
+
+	public static void reseed() throws QuantumException {
 		long seed = getQuantumRandomLong();
 		if (seed < 0) {
 			throw new QuantumException();
 		}
 		rand.setSeed(seed);
-		return rand.nextInt(n);
 	}
-
 	public static long getQuantumRandomLong() {
 		String rawJson;
 		try {
