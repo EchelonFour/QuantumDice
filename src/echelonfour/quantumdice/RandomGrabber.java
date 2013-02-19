@@ -11,16 +11,25 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.json.*;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import android.net.http.AndroidHttpClient;
 import android.util.Log;
 
 public class RandomGrabber {
 	private static String TAG = "echelonfour.quantumdice.random";
-	static HttpClient httpClient = AndroidHttpClient.newInstance(null);
+	static HttpClient httpClient;
 	static Random rand = new Random();
 
+	public static void initilise() {
+		httpClient = new DefaultHttpClient();
+	}
+	
+	public static void deinitilise() {
+		httpClient.getConnectionManager().shutdown();
+		httpClient = null;
+	}
 	public static int getRandomBound(int n) throws QuantumException {
 		long seed = getQuantumRandomLong();
 		if (seed < 0) {
@@ -66,6 +75,10 @@ public class RandomGrabber {
 			return "";
 		} catch (IOException e) {
 			return "";
+		} finally {
+			try {
+				is.close();
+			} catch (IOException e) {}
 		}
 	}
 }

@@ -25,6 +25,18 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	@Override
+	protected void onStop() {
+		super.onStop();
+		RandomGrabber.deinitilise();
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		RandomGrabber.initilise();
+	}
+
 	public void onButtonGoClicked(View view) {
 		new RunRandomLookup().execute();
 	}
