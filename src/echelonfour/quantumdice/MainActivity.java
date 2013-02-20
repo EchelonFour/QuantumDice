@@ -143,12 +143,15 @@ public class MainActivity extends Activity {
 			int checkId = ((RadioGroup) findViewById(R.id.radioGroup))
 					.getCheckedRadioButtonId();
 			int customBound;
+			EditText customText = (EditText) findViewById(R.id.editTextCustom);
 			try {
-			customBound = Integer
-					.parseInt(((EditText) findViewById(R.id.editTextCustom))
-							.getText().toString());
+				customBound = Integer.parseInt(customText.getText().toString());
+				if (customBound < 2) {
+					customText.setText("10");
+					customBound = 10;
+				}
 			} catch (NumberFormatException e) {
-				((EditText) findViewById(R.id.editTextCustom)).setText("10");
+				customText.setText("10");
 				customBound = 10;
 			}
 			switch (checkId) {
