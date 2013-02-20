@@ -19,30 +19,30 @@ import android.util.Log;
 
 public class RandomGrabber {
 	private static String TAG = "echelonfour.quantumdice.random";
-	static HttpClient httpClient;
-	static Random rand = new Random();
+	private HttpClient httpClient;
+	private Random rand = new Random();
 
-	public static void initilise() {
+	public RandomGrabber() {
 		httpClient = new DefaultHttpClient();
 	}
 	
-	public static void deinitilise() {
+	public void deinitilise() {
 		httpClient.getConnectionManager().shutdown();
 		httpClient = null;
 	}
-	public static int getRandomBound(int n) {
+	public int getRandomBound(int n) {
 		
 		return rand.nextInt(n);
 	}
 
-	public static void reseed() throws QuantumException {
+	public void reseed() throws QuantumException {
 		long seed = getQuantumRandomLong();
 		if (seed < 0) {
 			throw new QuantumException();
 		}
 		rand.setSeed(seed);
 	}
-	public static long getQuantumRandomLong() {
+	public long getQuantumRandomLong() {
 		String rawJson;
 		try {
 			HttpGet get = new HttpGet(
@@ -64,7 +64,7 @@ public class RandomGrabber {
 
 	}
 
-	public static String flushStream(InputStream is) {
+	private String flushStream(InputStream is) {
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					is, "UTF-8"), 8);

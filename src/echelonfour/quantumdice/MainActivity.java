@@ -19,6 +19,7 @@ public class MainActivity extends Activity {
 	private static final String prefCustomNumber = "customNumber";
 	private static final String prefSelectedOption = "selectedOption";
 	private boolean manualReseed = false;
+	private RandomGrabber randomGrabber;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,8 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onStop() {
 		super.onStop();
-		RandomGrabber.deinitilise();
+		randomGrabber.deinitilise();
+		randomGrabber = null;
 		Editor editor = getSharedPreferences(prefName, MODE_PRIVATE).edit();
 		editor.putBoolean(prefManualReseed, manualReseed);
 		editor.putString(prefCustomNumber,
@@ -83,7 +85,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		RandomGrabber.initilise();
+		randomGrabber = new RandomGrabber();
 		SharedPreferences prefs = getSharedPreferences(prefName, MODE_PRIVATE);
 		manualReseed = prefs.getBoolean(prefManualReseed, false);
 		((EditText) findViewById(R.id.editTextCustom)).setText(prefs.getString(
@@ -129,7 +131,7 @@ public class MainActivity extends Activity {
 		protected Boolean doInBackground(Void... params) {
 			try {
 				if (!manualReseed) {
-					RandomGrabber.reseed();
+					randomGrabber.reseed();
 				}
 
 			} catch (QuantumException e) {
@@ -156,16 +158,16 @@ public class MainActivity extends Activity {
 			}
 			switch (checkId) {
 			case R.id.radioDice:
-				textResult.setText(Integer.toString(RandomGrabber
+				textResult.setText(Integer.toString(randomGrabber
 						.getRandomBound(6) + 1));
 				break;
 			case R.id.radioCustom:
-				textResult.setText(Integer.toString(RandomGrabber
+				textResult.setText(Integer.toString(randomGrabber
 						.getRandomBound(customBound)));
 				break;
 			default:
 			case R.id.radioCoin:
-				if (RandomGrabber.getRandomBound(2) == 0) {
+				if (randomGrabber.getRandomBound(2) == 0) {
 					textResult.setText(getString(R.string.heads));
 				} else {
 					textResult.setText(getString(R.string.tails));
@@ -184,7 +186,7 @@ public class MainActivity extends Activity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			try {
-				RandomGrabber.reseed();
+				randomGrabber.reseed();
 			} catch (QuantumException e) {
 				showNetworkError();
 			}
