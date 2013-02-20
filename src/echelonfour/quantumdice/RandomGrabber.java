@@ -25,13 +25,14 @@ public class RandomGrabber {
 	public RandomGrabber() {
 		httpClient = new DefaultHttpClient();
 	}
-	
+
 	public void deinitilise() {
 		httpClient.getConnectionManager().shutdown();
 		httpClient = null;
 	}
+
 	public int getRandomBound(int n) {
-		
+
 		return rand.nextInt(n);
 	}
 
@@ -42,15 +43,16 @@ public class RandomGrabber {
 		}
 		rand.setSeed(seed);
 	}
+
 	public long getQuantumRandomLong() {
 		String rawJson;
 		try {
 			HttpGet get = new HttpGet(
-					"http://qrng.anu.edu.au/API/jsonI.php?length=1&type=uint16");
+					"http://qrng.anu.edu.au/API/jsonI.php?length=1&type=hex16&size=7");
 			HttpResponse response = httpClient.execute(get);
 			rawJson = flushStream(response.getEntity().getContent());
 			JSONObject json = new JSONObject(rawJson);
-			return json.getJSONArray("data").getLong(0);
+			return Long.parseLong(json.getJSONArray("data").getString(0), 16);
 		} catch (ClientProtocolException e) {
 			Log.e(TAG, "This should never happen", e);
 			return -1;
@@ -59,6 +61,9 @@ public class RandomGrabber {
 			return -1;
 		} catch (JSONException e) {
 			Log.e(TAG, "JSON Parse exception", e);
+			return -1;
+		} catch (NumberFormatException e) {
+			Log.e(TAG, "Number Parse exception", e);
 			return -1;
 		}
 
@@ -81,7 +86,8 @@ public class RandomGrabber {
 		} finally {
 			try {
 				is.close();
-			} catch (IOException e) {}
+			} catch (IOException e) {
+			}
 		}
 	}
 }
